@@ -13,15 +13,33 @@ Store.prototype = {
     this.records.push(record);
   },
   find: function(title){
-    return _.find(this.records, function(o) { return o.title === title; })
+    return _.find(this.records, function(r) { return r.title === title; })
   },
   inventory: function(){
     for (record of this.records) {
       console.log(record)
     } 
-  }
+  },
+  sell: function(title, customer){
+    var find = this.find(title);
+    var index = this.records.indexOf(find)
+    var record = this.records.splice(index, 1)[0]
+    this.balance += record.price
+    customer.money -= record.price
+    customer.add(record)
+    return record
+    },
 
-
+    stockValue: function(){
+    value = 0;
+    for (record of this.records ) {
+      value += record.price;
+      }
+      return value
+    },
+    changeBalance: function(amount){
+      this.balance += amount
+    }
 
 }
 // store1 = new Store("Record Breakers", "Edinburgh", 1000);
